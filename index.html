@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Guess what letter I'm choosing!</title>
+
+</head>
+
+<body>
+    <h1>Guess which letter I'm guessing!</h1>
+    <h2>Wins: <span id="wins"></span></h2>
+    <h2>Losses: <span id="losses"></span></h2>
+    <h2>Guesses Left: <span id="guesses-left"></span></h2>
+    <h2>Your Guesses So Far: <span id="letters-guessed"></span></h2>
+
+
+    <script type="text/javascript">
+        //  debugger;
+
+        var wins = 0;
+        var losses = 0;
+        var guessesLeft = 5;
+        var lettersGuessed = [];
+
+        function resetLettersGuessed() {
+            lettersGuessed = [];
+        }
+
+        function resetGuessesLeft() {
+            guessesLeft = 5;
+        }
+
+        function newSecret() {
+            secretLetter = possibleLetters[Math.floor(Math.random() * possibleLetters.length)];
+        }
+
+
+        var possibleLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var secretLetter = possibleLetters[Math.floor(Math.random() * possibleLetters.length)];
+        console.log(secretLetter); //for testing
+
+        var winsElement = document.getElementById("wins");
+        winsElement.textContent = wins.toString();
+        var lossesElement = document.getElementById("losses");
+        lossesElement.textContent = losses.toString();
+        var guessesLeftElement = document.getElementById("guesses-left");
+        guessesLeftElement.textContent = guessesLeft.toString();
+        var lettersGuessedElement = document.getElementById("letters-guessed");
+        lettersGuessedElement.textContent = lettersGuessed.toString();
+
+        document.onkeyup = function (event) {//set a user input on key event (userChoice)
+            var userChoice = event.key;
+            console.log(secretLetter); //for testing
+            if (!lettersGuessed.includes(userChoice)) {//if userChoice hasn't already been chosen
+            if (window.secretLetter === userChoice) {
+                alert("You have chosen wisely."); //alert the user they won
+                wins++; //add one to wins column
+                winsElement.textContent = wins.toString();
+                guessesLeft = 5; // not sure if scope is right
+                guessesLeftElement.textContent = guessesLeft.toString();
+                resetLettersGuessed();
+                lettersGuessedElement.textContent = lettersGuessed.toString();
+                resetGuessesLeft();
+                guessesLeftElement.textContent = guessesLeft.toString();
+                newSecret();
+
+            } else {
+                guessesLeft--;
+                lettersGuessed.push(userChoice);
+                lettersGuessedElement.textContent = lettersGuessed.toString();
+                guessesLeftElement.textContent = guessesLeft.toString();
+
+            }
+
+            if (guessesLeft < 1) {
+                alert("You have chosen poorly! Play again.");
+                losses++;
+                lossesElement.textContent = losses.toString();
+                resetLettersGuessed();
+                lettersGuessedElement.textContent = lettersGuessed.toString();
+                resetGuessesLeft();
+                guessesLeftElement.textContent = guessesLeft.toString();
+                newSecret();
+            }
+        }
+       }
+
+
+    </script>
+
+</body>
+
+</html>
